@@ -1,0 +1,15 @@
+S -> TH SF
+S -> O ST
+S -> TH BF
+S -> O BT
+B -> FV B
+B -> 5
+SF -> S F
+ST -> S T
+BF -> B F
+BT -> B T
+O -> 1
+T -> 2
+TH -> 3
+F -> 4
+FV -> 5
