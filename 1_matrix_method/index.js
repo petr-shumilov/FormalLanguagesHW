@@ -2,9 +2,16 @@ const fs = require('fs');
 const dot = require('graphlib-dot');
 
 try {
-    let graph = dot.read(fs.readFileSync('../graphs/travel.dot', 'utf-8'));
 
-    let grammarDesc = fs.readFileSync('../grammars/q1_grammar.txt', 'utf-8');
+    if (process.argv.length < 4) {
+        throw new Error("invalid number of arguments. Usage: node index.js grammarPath graphPath [resultPath|DEBUG]");
+    }
+
+    const grammarPath = process.argv[2].toString();
+    const graphPath = process.argv[3].toString();
+
+    let graph = dot.read(fs.readFileSync(graphPath, 'utf-8'));
+    let grammarDesc = fs.readFileSync(grammarPath, 'utf-8');
 
     let grammar = {};
     grammarDesc.split('\n').forEach((line) => {
@@ -63,18 +70,37 @@ try {
                 });
             });
         });
-        console.log('closure');
+        //console.log('closure');
     }
 
+    let writeStream;
+    let toFile = (process.argv[4] !== undefined && process.argv[4] !== 'DEBUG');
+    let isDebug = (process.argv[4] === 'DEBUG');
+    if (toFile) {
+        writeStream = fs.createWriteStream(process.argv[4]);
+    }
     let cnt = 0;
     Object.keys(matrix).forEach((i) => {
         Object.keys(matrix[i]).forEach((j) => {
+            matrix[i][j].forEach((nonTerm) => {
+                if (toFile) {
+                    writeStream.write(`${i},${nonTerm},${j}\n`);
+                }
+                else if (!isDebug) {
+                    console.log(`${i},${nonTerm},${j}`);
+                }
+            });
             if (matrix[i][j].includes('S')) {
                 cnt++;
             }
         });
     });
-    console.log(cnt);
+    if (toFile) {
+        writeStream.end();
+    }
+    else if (isDebug) {
+        console.log(cnt);
+    }
 }
 catch (e) {
     console.log(`Error: ${e.message}`);

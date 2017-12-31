@@ -2,10 +2,14 @@ const fs    = require('fs');
 const dot   = require('graphlib-dot');
 const Graph = require("graphlib").Graph;
 
-const rfaPath = '../rfa/rfa_1.dot';
-const fsmPath = '../graphs/pizza.dot';
 
 try {
+    if (process.argv.length < 4) {
+        throw new Error("invalid number of arguments. Usage: node index.js rfaPath fsmPath [resultPath|DEBUG]");
+    }
+
+    const rfaPath = process.argv[2].toString();
+    const fsmPath = process.argv[3].toString();
 
     let rfaParsed = dot.read(fs.readFileSync(rfaPath, 'utf-8'));
     let rfaStartStates = [];
@@ -15,8 +19,8 @@ try {
         multigraph: true
     });
     rfaParsed.nodes().filter((node) => {return (rfaParsed.node(node).color === 'green');}).forEach((node) => {
-        let lable = `${rfaParsed.node(node).label}`;
-        (rfaStartStates[lable] = rfaStartStates[lable] || []).push(node);
+        let label = `${rfaParsed.node(node).label}`;
+        (rfaStartStates[label] = rfaStartStates[label] || []).push(node);
     });
 
     rfaParsed.nodes().filter((node) => { return (rfaParsed.node(node).shape === 'doublecircle');}).forEach((node) => {
@@ -138,15 +142,31 @@ try {
         }
     }
 
+
+    let writeStream;
+    let toFile = (process.argv[4] !== undefined && process.argv[4] !== 'DEBUG');
+    let isDebug = (process.argv[4] === 'DEBUG');
+    if (toFile) {
+         writeStream = fs.createWriteStream(process.argv[4]);
+    }
     let cnt = 0;
     result.forEach((res) => {
-        let w = JSON.parse(res);
-        //console.log(w);
-        if (w[1] === "S") {
-           cnt++;
+        let triplet = JSON.parse(res);
+        if (toFile) {
+            writeStream.write(`${triplet[0]},${triplet[1]},${triplet[2]}\n`);
         }
+        else if (!isDebug) {
+            console.log(`${triplet[0]},${triplet[1]},${triplet[2]}`);
+        }
+        if (triplet[1] === 'S') cnt++;
     });
-    console.log(cnt);
+    if (toFile) {
+        writeStream.end();
+    }
+    else if (isDebug) {
+        console.log(cnt);
+    }
+
 }
 catch (e) {
     console.log(`Error: ${e.message}`);

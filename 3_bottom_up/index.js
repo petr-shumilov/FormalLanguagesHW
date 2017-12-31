@@ -4,7 +4,14 @@ const Graph = require("graphlib").Graph;
 
 try {
 
-    let _rfa = dot.read(fs.readFileSync('../rfa/rfa_1.dot', 'utf-8'));
+    if (process.argv.length < 4) {
+        throw new Error("invalid number of arguments. Usage: node index.js rfaPath fsmPath [resultPath|DEBUG]");
+    }
+
+    const rfaPath = process.argv[2].toString();
+    const fsmPath = process.argv[3].toString();
+
+    let _rfa = dot.read(fs.readFileSync(rfaPath, 'utf-8'));
 
     let _rfaStartStates = {};
     _rfa.nodes().filter((node) => {
@@ -26,7 +33,7 @@ try {
         finalStates: _rfaFinalState
     };
 
-    let _fsm = dot.read(fs.readFileSync('../graphs/atom-primitive.dot', 'utf-8'));
+    let _fsm = dot.read(fs.readFileSync(fsmPath, 'utf-8'));
 
     let fsm = new Graph({
         multigraph: true
@@ -98,10 +105,16 @@ try {
             if (hasChange)
                 closureChanges = true;
         }
-        console.log('kek');
+        //console.log('kek');
         yetAnotherIteration = intersectionChanges || closureChanges;
     }
 
+    let writeStream;
+    let toFile = (process.argv[4] !== undefined && process.argv[4] !== 'DEBUG');
+    let isDebug = (process.argv[4] === 'DEBUG');
+    if (toFile) {
+        writeStream = fs.createWriteStream(process.argv[4]);
+    }
     let cnt = 0;
     Object.keys(matrix).forEach((i) => {
         Object.keys(matrix[i]).forEach((j) => {
@@ -109,12 +122,25 @@ try {
             let ind2 = /\(([0-9]+),([0-9]+)\)/.exec(j);
             let a = ind1[1], b = ind1[2];
             let c = ind2[1], d = ind2[2];
-            if (rfa.startStates[b] !== undefined && rfa.finalStates[d] === 'S') {
-                cnt++;
+            if (rfa.startStates[b] !== undefined && rfa.finalStates[d] !== undefined) {
+                if (toFile) {
+                    writeStream.write(`${a},${rfa.startStates[b]},${c}\n`);
+                }
+                else if (!isDebug) {
+                    console.log(`${a},${rfa.startStates[b]},${c}`);
+                }
+                if (rfa.startStates[b] === 'S') {
+                    cnt++;
+                }
             }
         });
     });
-    console.log(cnt);
+    if (toFile) {
+        writeStream.end();
+    }
+    else if (isDebug) {
+        console.log(cnt);
+    }
 
 }
 catch (e) {
