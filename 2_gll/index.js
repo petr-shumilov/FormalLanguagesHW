@@ -3,36 +3,37 @@ const dot   = require('graphlib-dot');
 const Graph = require("graphlib").Graph;
 
 const rfaPath = '../rfa/rfa_1.dot';
-    const fsmPath = '../graphs/travel.dot';
+const fsmPath = '../graphs/pizza.dot';
 
-//try {
+try {
 
     let rfaParsed = dot.read(fs.readFileSync(rfaPath, 'utf-8'));
-
     let rfaStartStates = [];
-
-    rfaParsed.nodes().filter((node) => {return (rfaParsed.node(node).color === 'green');}).forEach((node) => {
-        (rfaStartStates[`${rfaParsed.node(node).label}`.toString()] = rfaStartStates[`${rfaParsed.node(node).label}`.toString()] || []).push(node);
-    });
-
-    let rfaFinalStateSet = new Set();
-    rfaParsed.nodes().filter((node) => { return (rfaParsed.node(node).shape === 'doublecircle');}).forEach((node) => {
-        rfaFinalStateSet.add(node.toString());
-    });
+    let rfaFinalStatesSet = new Set();
+    let rfaTerminals = new Set();
     let rfaGraph = new Graph({
         multigraph: true
     });
-    let rfaTerminals = new Set();
+    rfaParsed.nodes().filter((node) => {return (rfaParsed.node(node).color === 'green');}).forEach((node) => {
+        let lable = `${rfaParsed.node(node).label}`;
+        (rfaStartStates[lable] = rfaStartStates[lable] || []).push(node);
+    });
+
+    rfaParsed.nodes().filter((node) => { return (rfaParsed.node(node).shape === 'doublecircle');}).forEach((node) => {
+        rfaFinalStatesSet.add(node.toString());
+    });
+
     rfaParsed.edges().forEach((e) => {
-        rfaGraph.setEdge(e.v, e.w, rfaParsed.edge(e).label, rfaParsed.edge(e).label);
-        if (!/([A-Z]+)/.test(rfaParsed.edge(e).label.toString())) {
-            rfaTerminals.add(rfaParsed.edge(e).label.toString());
+        let label = rfaParsed.edge(e).label;
+        rfaGraph.setEdge(e.v, e.w, label, label);
+        if (!/([A-Z]+)/.test(label)) {
+            rfaTerminals.add(label);
         }
     });
     let rfa = {
         graph: rfaGraph,
         startStates: rfaStartStates,
-        finalStatesSet: rfaFinalStateSet,
+        finalStatesSet: rfaFinalStatesSet,
         terminals: rfaTerminals
     };
 
@@ -44,11 +45,6 @@ const rfaPath = '../rfa/rfa_1.dot';
         fsm.setEdge(e.v, e.w, fsmParsed.edge(e).label, fsmParsed.edge(e).label);
     });
 
-    //console.log(rfa.graph.outEdges('1'));
-
-    console.log(rfa.startStates);
-    console.log(rfa.finalStatesSet);
-
 
     let queue = new Set();
     let used = new Set();
@@ -59,7 +55,6 @@ const rfaPath = '../rfa/rfa_1.dot';
     fsm.nodes().forEach((node) => {
        Object.keys(rfa.startStates).forEach((nonTerm) => {
            Object.keys(rfa.startStates[nonTerm]).forEach((k) => {
-               //console.log(k);
                queue.add(JSON.stringify({
                    fsmPos: node,
                    rfaPos: rfa.startStates[nonTerm][k],
@@ -69,18 +64,9 @@ const rfaPath = '../rfa/rfa_1.dot';
        })
     });
 
-    //console.log(queue);
-    //console.log(rfa.graph.outEdges('0'));
-
-    //fsm.edges().forEach((e) => {
-    //   console.log(e);
-    //});
-    let f = false;
     while (queue.size) {
-        //console.log(queue.size);
         let config = queue.values().next().value;
         queue.delete(config);
-
 
         if (used.has(config)) {
             continue;
@@ -88,101 +74,80 @@ const rfaPath = '../rfa/rfa_1.dot';
         used.add(config);
         config = JSON.parse(config);
 
-        // 3 case
-        if (rfa.finalStatesSet.has(config.rfaPos.toString()) && gss[config.gss.toString()] !== undefined) {
-            Object.keys(gss[config.gss]).forEach((j) => {
-                gss[config.gss][j].forEach((x) => {
-                    queue.add(JSON.stringify({
-                        fsmPos: config.fsmPos,
-                        rfaPos: x,
-                        gss: j
-                    }));
-                });
-            });
-            //console.log(config.gss);
-            let gssParsed = /\(([a-zA-Z]+),([0-9]+)\)/.exec(config.gss);
-            result.add(JSON.stringify([gssParsed[2], gssParsed[1], config.fsmPos]));
-            (marked[config.gss.toString()] = marked[config.gss.toString()] || []).push(config.fsmPos.toString());
-
-        }
-
-
         rfa.graph.outEdges(config.rfaPos).forEach((rfaTo) => {
             fsm.outEdges(config.fsmPos).forEach((fsmTo) => {
 
+                // 1 case
+                if (rfaTo.name === fsmTo.name && rfa.terminals.has(rfaTo.name)) {
+                    queue.add(JSON.stringify({
+                        fsmPos: fsmTo.w,
+                        rfaPos: rfaTo.w,
+                        gss: config.gss
+                    }));
+                }
+
                 // 2 case
-                //console.log(rfaTo.name);
-                if (!rfa.terminals.has(rfaTo.name.toString())) {
+                if (!rfa.terminals.has(rfaTo.name)) {
                     let gssNew = `(${rfaTo.name},${config.fsmPos})`;
                     gss[gssNew] = gss[gssNew] || {};
                     gss[gssNew][config.gss] = gss[gssNew][config.gss] || new Set();
-                    gss[gssNew][config.gss].add(rfaTo.w.toString());
-                    //if (rfa.startStates[rfaTo.name.toString()] !== undefined) {
-                    for (let st = 0; st < rfa.startStates[rfaTo.name.toString()].length; ++st) {
+                    gss[gssNew][config.gss].add(rfaTo.w);
+                    rfa.startStates[rfaTo.name].forEach((start) => {
                         queue.add(JSON.stringify({
                             fsmPos: config.fsmPos,
-                            rfaPos: rfa.startStates[rfaTo.name.toString()][st],
+                            rfaPos: start,
                             gss: gssNew
                         }));
-                       // console.log(rfa.startStates[rfaTo.name.toString()][st]);
-                    }
-                    //}
+                    });
 
                     if (marked[gssNew.toString()] !== undefined) {
-                        for (let v = 0; v < marked[gssNew].length; ++v) {
+                        marked[gssNew].forEach((v) => {
                             let configTmp = JSON.stringify({
-                                fsmPos: marked[gssNew][v],
+                                fsmPos: v,
                                 rfaPos: rfaTo.w,
                                 gss: config.gss
                             });
                             if (!used.has(configTmp)) {
                                 queue.add(configTmp);
                             }
-                        }
+                        });
                     }
-                }
-
-
-                // 1 case
-                if (rfaTo.name === fsmTo.name && rfa.terminals.has(rfaTo.name.toString())) {
-                    queue.add(JSON.stringify({
-                        fsmPos: fsmTo.w,
-                        rfaPos: rfaTo.w,
-                        gss: config.gss
-                    }));
-                    if (f === false) {
-                        console.log(queue);
-                    }
-                    f = true;
                 }
             });
-
         });
-        //queue.clear();
-        //console.log(queue.size);
+
+        // 3 case
+        if (rfa.finalStatesSet.has(config.rfaPos.toString())) {
+            if (gss[config.gss.toString()] !== undefined) {
+                Object.keys(gss[config.gss]).forEach((j) => {
+                    gss[config.gss][j].forEach((x) => {
+                        queue.add(JSON.stringify({
+                            fsmPos: config.fsmPos,
+                            rfaPos: x,
+                            gss: j
+                        }));
+                    });
+                });
+            }
+            result.add(JSON.stringify([
+                (/\(([a-zA-Z]+),([0-9]+)\)/.exec(config.gss))[2],
+                (/\(([a-zA-Z]+),([0-9]+)\)/.exec(config.gss))[1],
+                config.fsmPos
+            ]));
+            (marked[config.gss] = marked[config.gss] || []).push(config.fsmPos);
+        }
     }
-    console.log(gss);
 
-
-/*let u = new Set();
-let a = 'a';
-let b = 1;
-u.add(`(${a},${b})`);
-console.log(u.has('(a,1)'));*/
-
-      let cnt = 0;
+    let cnt = 0;
     result.forEach((res) => {
-       let w = JSON.parse(res);
+        let w = JSON.parse(res);
         //console.log(w);
-
         if (w[1] === "S") {
            cnt++;
-       }
+        }
     });
     console.log(cnt);
-//    console.log(queue);
-
-//}
-//catch (e) {
-//    console.log(`Error: ${e.message}`);
-//}
+}
+catch (e) {
+    console.log(`Error: ${e.message}`);
+}
