@@ -13,8 +13,8 @@ sudo apt-get install -y nodejs
 ``` 
 ## Input format:
 - 1_matrix_method  [grammar in Chomsky normal form] [graph] 
-- 2_gll - [recursive finite automaton] [graph]
-- 3_bottom_up - [recursive finite automaton] [graph]
+- 2_gll  [recursive finite automaton] [graph]
+- 3_bottom_up  [recursive finite automaton] [graph]
 ## Run:
 ``` 
 nodejs 1_matrix_method/index.js grammars/q1_grammar.txt graphs/travel.dot matrix_res.txt
