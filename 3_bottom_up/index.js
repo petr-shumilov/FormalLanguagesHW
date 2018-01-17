@@ -27,8 +27,16 @@ try {
         _rfaFinalState[node] = _rfa.node(node).label;
     });
 
+    let rfaGraph = new Graph({
+        multigraph: true
+    });
+
+    _rfa.edges().forEach((e) => {
+        rfaGraph.setEdge(e.v, e.w, _rfa.edge(e).label, _rfa.edge(e).label);
+    });
+
     let rfa = {
-        graph: _rfa,
+        graph: rfaGraph,
         startStates: _rfaStartStates,
         finalStates: _rfaFinalState
     };
@@ -40,7 +48,11 @@ try {
     });
     _fsm.edges().forEach((e) => {
         fsm.setEdge(e.v, e.w, _fsm.edge(e).label, _fsm.edge(e).label);
+
     });
+
+
+    //console.log(rfa.graph.edges());
 
     let matrix = {};
     let yetAnotherIteration = true;
@@ -55,7 +67,7 @@ try {
             hasChange = false;
             rfa.graph.edges().forEach((rfaEdge) => {
                 fsm.edges().forEach((fsmEdge) => {
-                    let rfaLabel = rfa.graph.edge(rfaEdge.v, rfaEdge.w).label;
+                    let rfaLabel = rfa.graph.edge(rfaEdge.v, rfaEdge.w, rfaEdge.name);
                     let fsmLabel = fsm.edge(fsmEdge.v, fsmEdge.w, fsmEdge.name);
 
                     if (rfaLabel === fsmLabel) {
@@ -115,7 +127,7 @@ try {
     if (toFile) {
         writeStream = fs.createWriteStream(process.argv[4]);
     }
-    let cnt = 0;
+    let triplets = new Set();
     Object.keys(matrix).forEach((i) => {
         Object.keys(matrix[i]).forEach((j) => {
             let ind1 = /\(([0-9]+),([0-9]+)\)/.exec(i);
@@ -123,17 +135,22 @@ try {
             let a = ind1[1], b = ind1[2];
             let c = ind2[1], d = ind2[2];
             if (rfa.startStates[b] !== undefined && rfa.finalStates[d] !== undefined) {
-                if (toFile) {
-                    writeStream.write(`${a},${rfa.startStates[b]},${c}\n`);
-                }
-                else if (!isDebug) {
-                    console.log(`${a},${rfa.startStates[b]},${c}`);
-                }
-                if (rfa.startStates[b] === 'S') {
-                    cnt++;
-                }
+
+                triplets.add(`${a},${rfa.startStates[b]},${c}`);
             }
         });
+    });
+    let cnt = 0;
+    Array.from(triplets).map((triplet) => {
+        if (toFile) {
+            writeStream.write(`${triplet}\n`);
+        }
+        else if (!isDebug) {
+            console.log(triplet);
+        }
+        if (triplet.includes('S')) {
+            cnt++;
+        }
     });
     if (toFile) {
         writeStream.end();
@@ -141,7 +158,6 @@ try {
     else if (isDebug) {
         console.log(cnt);
     }
-
 }
 catch (e) {
     console.log(`Error: ${e.message}`);

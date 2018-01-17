@@ -1,0 +1,8 @@
+S -> Zero X
+X -> S Zero
+S -> One T
+T -> S One
+S -> 0
+S -> 1
+One -> 1
+Zero -> 0

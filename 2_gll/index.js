@@ -3,7 +3,7 @@ const dot   = require('graphlib-dot');
 const Graph = require("graphlib").Graph;
 
 
-try {
+//try {
     if (process.argv.length < 4) {
         throw new Error("invalid number of arguments. Usage: node index.js rfaPath fsmPath [resultPath|DEBUG]");
     }
@@ -34,6 +34,7 @@ try {
             rfaTerminals.add(label);
         }
     });
+
     let rfa = {
         graph: rfaGraph,
         startStates: rfaStartStates,
@@ -167,7 +168,7 @@ try {
         console.log(cnt);
     }
 
-}
-catch (e) {
-    console.log(`Error: ${e.message}`);
-}
+//}
+//catch (e) {
+//    console.log(`Error: ${e.message}`);
+//}

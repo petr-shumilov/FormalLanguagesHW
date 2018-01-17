@@ -1,0 +1,9 @@
+S -> S A
+S -> B S
+S -> n
+S -> OB X
+X -> S CB
+A -> +
+B -> *
+OB -> (
+CB -> )

@@ -1,0 +1,10 @@
+S -> V R
+R -> S U
+S -> Y T
+T -> S X
+S -> V U
+S -> Y X
+X -> 1
+Y -> 2
+U -> 3
+V -> 4

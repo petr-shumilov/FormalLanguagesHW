@@ -1,5 +1,6 @@
 const fs = require('fs');
 const dot = require('graphlib-dot');
+const Graph = require('graphlib').Graph;
 
 try {
 
@@ -10,39 +11,50 @@ try {
     const grammarPath = process.argv[2].toString();
     const graphPath = process.argv[3].toString();
 
-    let graph = dot.read(fs.readFileSync(graphPath, 'utf-8'));
     let grammarDesc = fs.readFileSync(grammarPath, 'utf-8');
 
     let grammar = {};
     grammarDesc.split('\n').forEach((line) => {
 
+        if (line === "") {
+            return;
+        }
+
         let parsedLine = /([^\s]+) -> ((([^\s]+) ([^\s]+))|([^\s]+))/.exec(line);
-        if (parsedLine[1] === undefined) {
+        if (parsedLine === null) {
             throw new Error("Parse error");
         }
 
         if (parsedLine[4] !== undefined && parsedLine[5] !== undefined) {
             grammar[parsedLine[4]] = grammar[parsedLine[4]] || {};
-            (grammar[parsedLine[4]][parsedLine[5]] = grammar[parsedLine[4]][parsedLine[5]] || []).push(parsedLine[1]);
+            (grammar[parsedLine[4]][parsedLine[5]] = grammar[parsedLine[4]][parsedLine[5]] || []).push(parsedLine[1].toString());
         }
         else if (parsedLine[6] !== undefined) {
-            (grammar[parsedLine[6]] = grammar[parsedLine[6]] || []).push(parsedLine[1]);
+            (grammar[parsedLine[6]] = grammar[parsedLine[6]] || []).push(parsedLine[1].toString());
         }
     });
 
     //console.log(grammar);
     let matrix = {};
+    let _graph = dot.read(fs.readFileSync(graphPath, 'utf-8'));
+
+    let graph = new Graph({
+        multigraph: true
+    });
+    _graph.edges().forEach((e) => {
+        graph.setEdge(e.v, e.w, _graph.edge(e).label, _graph.edge(e).label);
+    });
+
     graph.edges().forEach((e) => {
-        let label = graph.edge(e.v, e.w).label;
+        let label = e.name;
         if (grammar[label] !== undefined) {
             grammar[label].forEach((nonTerm) => {
                matrix[e.v] = matrix[e.v] || {};
-               (matrix[e.v][e.w] =  matrix[e.v][e.w] || []).push(nonTerm);
+               (matrix[e.v][e.w] =  matrix[e.v][e.w] || new Set()).add(nonTerm);
             });
         }
     });
 
-    //console.log(matrix);
     let hasChanges = true;
     while (hasChanges) {
         hasChanges = false;
@@ -59,12 +71,14 @@ try {
                                 return;
                             }
 
-                            matrix[i][j] = matrix[i][j] || [];
-                            if (!matrix[i][j].includes(grammar[nonTerm1][nonTerm2].toString())) {
-                                hasChanges = true;
-                                matrix[i][j] = matrix[i][j].concat(grammar[nonTerm1][nonTerm2]);
-                                //console.log(`(${i}  ${k})-> (${k} ${j}) | ${nonTerm1} ${nonTerm2} ${grammar[nonTerm1][nonTerm2]} | ${matrix[i][j]}`);
-                            }
+                            matrix[i][j] = matrix[i][j] || new Set();
+                            grammar[nonTerm1][nonTerm2].forEach((symb) => {
+                                if (!matrix[i][j].has(symb)) {
+                                    hasChanges = true;
+                                    matrix[i][j].add(symb);
+                                }
+                            });
+
                         });
                     });
                 });
@@ -89,10 +103,12 @@ try {
                 else if (!isDebug) {
                     console.log(`${i},${nonTerm},${j}`);
                 }
+                if (nonTerm === 'S') {
+                    cnt++;
+                }
             });
-            if (matrix[i][j].includes('S')) {
-                cnt++;
-            }
+            //if (matrix[i][j].includes('S')) {
+
         });
     });
     if (toFile) {
@@ -101,6 +117,7 @@ try {
     else if (isDebug) {
         console.log(cnt);
     }
+    //console.log(cnt);
 }
 catch (e) {
     console.log(`Error: ${e.message}`);

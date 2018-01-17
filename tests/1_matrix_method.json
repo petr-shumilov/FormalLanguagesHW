@@ -1,0 +1,137 @@
+[
+  {
+    "param1": "tests/graphs/wwr.dot",
+    "param2": "tests/grammars/wwr.txt",
+    "output": "3"
+  },
+  {
+    "param1": "tests/graphs/ab.dot",
+    "param2": "tests/grammars/ab.txt",
+    "output": "20"
+  },
+  {
+    "param1": "tests/graphs/expressions.dot",
+    "param2": "tests/grammars/expressions.txt",
+    "output": "9"
+  },
+  {
+    "param1": "tests/graphs/a-loop.dot",
+    "param2": "tests/grammars/a-loop.txt",
+    "output": "16"
+  },
+  {
+    "param1": "tests/graphs/epsilon.dot",
+    "param2": "tests/grammars/epsilon.txt",
+    "output": "7"
+  },
+  {
+    "param1": "tests/graphs/skos.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "810"
+  },
+  {
+    "param1": "tests/graphs/generations.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "2164"
+  },
+  {
+    "param1": "tests/graphs/travel.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "2499"
+  },
+  {
+    "param1": "tests/graphs/univ-bench.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "2540"
+  },
+  {
+    "param1": "tests/graphs/atom-primitive.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "15454"
+  },
+  {
+    "param1": "tests/graphs/biomedical-mesure-primitive.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "15156"
+  },
+  {
+    "param1": "tests/graphs/foaf.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "4118"
+  },
+  {
+    "param1": "tests/graphs/people_pets.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "9472"
+  },
+  {
+    "param1": "tests/graphs/funding.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "17634"
+  },
+  {
+    "param1": "tests/graphs/wine.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "66572"
+  },
+  {
+    "param1": "tests/graphs/pizza.dot",
+    "param2": "tests/grammars/q1_grammar.txt",
+    "output": "56195"
+  },
+  {
+    "param1": "tests/graphs/skos.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "1"
+  },
+  {
+    "param1": "tests/graphs/generations.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "0"
+  },
+  {
+    "param1": "tests/graphs/travel.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "63"
+  },
+  {
+    "param1": "tests/graphs/univ-bench.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "81"
+  },
+  {
+    "param1": "tests/graphs/atom-primitive.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "122"
+  },
+  {
+    "param1": "tests/graphs/biomedical-mesure-primitive.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "2871"
+  },
+  {
+    "param1": "tests/graphs/foaf.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "10"
+  },
+  {
+    "param1": "tests/graphs/people_pets.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "37"
+  },
+  {
+    "param1": "tests/graphs/funding.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "1158"
+  },
+  {
+    "param1": "tests/graphs/wine.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "133"
+  },
+  {
+    "param1": "tests/graphs/pizza.dot",
+    "param2": "tests/grammars/q2_grammar.txt",
+    "output": "1262"
+  }
+]

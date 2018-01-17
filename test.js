@@ -1,237 +1,14 @@
 const { exec }  = require('child_process');
-
+const matrix    = require('./tests/1_matrix_method.json');
+const gll       = require('./tests/2_gll.json');
+const glr       = require('./tests/3_bottom_up.json');
 try {
-    let matrix = [{
-            param1: 'graphs/skos.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '810'
-        },
-        {
-            param1: 'graphs/generations.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '2164'
-        },
-        {
-            param1: 'graphs/travel.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '2499'
-        },
-        {
-            param1: 'graphs/univ-bench.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '2540'
-        },
-        {
-            param1: 'graphs/atom-primitive.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '15454'
-        },
-        {
-            param1: 'graphs/biomedical-mesure-primitive.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '15156'
-        },
-        {
-            param1: 'graphs/foaf.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '4118'
-        },
-        {
-            param1: 'graphs/people_pets.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '9472'
-        },
-        {
-            param1: 'graphs/funding.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '17634'
-        },
-        {
-            param1: 'graphs/wine.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '66572'
-        },
-        {
-            param1: 'graphs/pizza.dot',
-            param2: 'grammars/q1_grammar.txt',
-            output: '56195'
-        },
-        {
-            param1: 'graphs/skos.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '1'
-        },
-        {
-            param1: 'graphs/generations.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '0'
-        },
-        {
-            param1: 'graphs/travel.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '63'
-        },
-        {
-            param1: 'graphs/univ-bench.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '81'
-        },
-        {
-            param1: 'graphs/atom-primitive.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '122'
-        },
-        {
-            param1: 'graphs/biomedical-mesure-primitive.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '2871'
-        },
-        {
-            param1: 'graphs/foaf.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '10'
-        },
-        {
-            param1: 'graphs/people_pets.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '37'
-        },
-        {
-            param1: 'graphs/funding.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '1158'
-        },
-        {
-            param1: 'graphs/wine.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '133'
-        },
-        {
-            param1: 'graphs/pizza.dot',
-            param2: 'grammars/q2_grammar.txt',
-            output: '1262'
-        }
-    ];
-
-    let gllAndGlr = [{
-            param1: 'graphs/skos.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '810'
-        },
-        {
-            param1: 'graphs/generations.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '2164'
-        },
-        {
-            param1: 'graphs/travel.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '2499'
-        },
-        {
-            param1: 'graphs/univ-bench.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '2540'
-        },
-        {
-            param1: 'graphs/atom-primitive.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '15454'
-        },
-        {
-            param1: 'graphs/biomedical-mesure-primitive.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '15156'
-        },
-        {
-            param1: 'graphs/foaf.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '4118'
-        },
-        {
-            param1: 'graphs/people_pets.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '9472'
-        },
-        {
-            param1: 'graphs/funding.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '17634'
-        },
-        {
-            param1: 'graphs/wine.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '66572'
-        },
-        {
-            param1: 'graphs/pizza.dot',
-            param2: 'rfa/rfa_1.dot',
-            output: '56195'
-        },
-        {
-            param1: 'graphs/skos.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '1'
-        },
-        {
-            param1: 'graphs/generations.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '0'
-        },
-        {
-            param1: 'graphs/travel.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '63'
-        },
-        {
-            param1: 'graphs/univ-bench.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '81'
-        },
-        {
-            param1: 'graphs/atom-primitive.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '122'
-        },
-        {
-            param1: 'graphs/biomedical-mesure-primitive.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '2871'
-        },
-        {
-            param1: 'graphs/foaf.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '10'
-        },
-        {
-            param1: 'graphs/people_pets.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '37'
-        },
-        {
-            param1: 'graphs/funding.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '1158'
-        },
-        {
-            param1: 'graphs/wine.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '133'
-        },
-        {
-            param1: 'graphs/pizza.dot',
-            param2: 'rfa/rfa_2.dot',
-            output: '1262'
-        }
-    ];
-
-
 
     let syncExec = (command) => {
         let sync = new Promise((resolve, reject) => {
             exec(command, (err, stdout, stderr) => {
                 if (err) {
-                    reject(err);
+                    reject(new Error(err));
                 }
                 else {
                     resolve({
@@ -246,58 +23,69 @@ try {
 
     let matrixTest = async () => {
 
-        console.log(`[${new Date()}]: Matrix testing start...`);
-        matrix.forEach(async (test) => {
-            let res = await syncExec(`nodejs 1_matrix_method/index.js ${test.param2} ${test.param1} DEBUG`);
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `Matrix method testing start...`);
+        for (let i  = 0; i < matrix.length; ++i) {
+            console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `Testing (grammar: '${matrix[i].param2}', graph: '${matrix[i].param1}')`);
+            let res = await syncExec(`nodejs 1_matrix_method/index.js ${matrix[i].param2} ${matrix[i].param1} DEBUG`);
             let out = res.stdout.replace(/[\r\n]/g, "");
-            let ans = test.output;
+            let ans = matrix[i].output;
             let status;
             if (out === ans) {
                 status = '[OK]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[32m', `${status}`, '\x1b[0m');
             }
             else {
                 status = '[FAIL]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[31m', `${status}`, '\x1b[0m');
             }
-            console.log(`[${new Date()}]: test(grammar: '${test.param2}'; graph: '${test.param1}') out: ${out}; ans: ${ans}; status: ${status}`);
-        });
+            console.log('');
+        };
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `Matrix method testing done!`);
     }
 
-    let gllTest = async () => {
 
-        console.log(`[${new Date()}]: GLL testing start...`);
+    const gllTest = async () => {
 
-        gllAndGlr.forEach(async (test) => {
-            let res = await syncExec(`nodejs 2_gll/index.js ${test.param2} ${test.param1} DEBUG`);
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `GLL testing start...`);
+        for (let i  = 0; i < gll.length; ++i) {
+            console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `Testing (rfa: '${gll[i].param2}', graph: '${gll[i].param1}')`);
+            let res = await syncExec(`nodejs 2_gll/index.js ${gll[i].param2} ${gll[i].param1} DEBUG`);
             let out = res.stdout.replace(/[\r\n]/g, "");
-            let ans = test.output;
+            let ans = gll[i].output;
             let status;
             if (out === ans) {
                 status = '[OK]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[32m', `${status}`, '\x1b[0m');
             }
             else {
                 status = '[FAIL]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[31m', `${status}`, '\x1b[0m');
             }
-            console.log(`[${new Date()}]: test(rfa: '${test.param2}'; graph: '${test.param1}') out: ${out}; ans: ${ans}; status: ${status}`);
-        });
+            console.log('');
+        };
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `GLL testing done!`);
     }
 
     let glrTest = async () => {
 
-        console.log(`[${new Date()}]: GLR testing start...`);
-
-        gllAndGlr.forEach(async (test) => {
-            let res = await syncExec(`nodejs 3_bottom_up/index.js ${test.param2} ${test.param1} DEBUG`);
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `GLR testing start...`);
+        for (let i  = 0; i < glr.length; ++i) {
+            console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `Testing (rfa: '${glr[i].param2}', graph: '${glr[i].param1}')`);
+            let res = await syncExec(`nodejs 3_bottom_up/index.js ${glr[i].param2} ${glr[i].param1} DEBUG`);
             let out = res.stdout.replace(/[\r\n]/g, "");
-            let ans = test.output;
+            let ans = glr[i].output;
             let status;
             if (out === ans) {
                 status = '[OK]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[32m', `${status}`, '\x1b[0m');
             }
             else {
                 status = '[FAIL]';
+                console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `out: ${out}, ans: ${ans}`, '\x1b[31m', `${status}`, '\x1b[0m');
             }
-            console.log(`[${new Date()}]: test(rfa: '${test.param2}'; graph: '${test.param1}') out: ${out}; ans: ${ans}; status: ${status}`);
-        });
+            console.log('');
+        };
+        console.log('\x1b[36m', `[${new Date()}]:`, '\x1b[0m', `GLR testing done!`);
     }
 
     if (process.argv.length < 3) {
