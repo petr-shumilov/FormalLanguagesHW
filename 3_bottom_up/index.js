@@ -2,7 +2,7 @@ const fs    = require('fs');
 const dot   = require('graphlib-dot');
 const Graph = require("graphlib").Graph;
 
-// /try {
+try {
 
     if (process.argv.length < 4) {
         throw new Error("invalid number of arguments. Usage: node index.js rfaPath fsmPath [resultPath|DEBUG]");
@@ -51,12 +51,9 @@ const Graph = require("graphlib").Graph;
 
     });
 
-
-
+    
     let matrix = {};
-
     let yetAnotherIteration = true;
-
     while (yetAnotherIteration) {
 
         yetAnotherIteration = false;
@@ -70,7 +67,6 @@ const Graph = require("graphlib").Graph;
                     let rfaLabel = rfa.graph.edge(rfaEdge.v, rfaEdge.w, rfaEdge.name);
                     let fsmLabel = fsm.edge(fsmEdge.v, fsmEdge.w, fsmEdge.name);
 
- //                   console.log(rfaLabel + " " + fsmLabel);
                     if (rfaLabel === fsmLabel) {
                         let i = `(${fsmEdge.v},${rfaEdge.v})`;
                         let j = `(${fsmEdge.w},${rfaEdge.w})`;
@@ -168,7 +164,7 @@ const Graph = require("graphlib").Graph;
     else if (isDebug) {
         console.log(cnt);
     }
-//}
-//catch (e) {
-//    console.log(`Error: ${e.message}`);
-//}
+}
+catch (e) {
+    console.log(`Error: ${e.message}`);
+}
