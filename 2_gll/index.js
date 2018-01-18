@@ -135,8 +135,8 @@ const Graph = require("graphlib").Graph;
                 });
             }
             result.add(JSON.stringify([
-                (/\(([a-zA-Z]+),([0-9]+)\)/.exec(config.gss))[2],
-                (/\(([a-zA-Z]+),([0-9]+)\)/.exec(config.gss))[1],
+                (/\(([a-zA-Z0-9]+),([0-9]+)\)/.exec(config.gss))[2],
+                (/\(([a-zA-Z0-9]+),([0-9]+)\)/.exec(config.gss))[1],
                 config.fsmPos
             ]));
             (marked[config.gss] = marked[config.gss] || []).push(config.fsmPos);
