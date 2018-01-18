@@ -2,7 +2,7 @@ const fs    = require('fs');
 const dot   = require('graphlib-dot');
 const Graph = require("graphlib").Graph;
 
-try {
+// /try {
 
     if (process.argv.length < 4) {
         throw new Error("invalid number of arguments. Usage: node index.js rfaPath fsmPath [resultPath|DEBUG]");
@@ -52,9 +52,9 @@ try {
     });
 
 
-    //console.log(rfa.graph.edges());
 
     let matrix = {};
+
     let yetAnotherIteration = true;
 
     while (yetAnotherIteration) {
@@ -70,6 +70,7 @@ try {
                     let rfaLabel = rfa.graph.edge(rfaEdge.v, rfaEdge.w, rfaEdge.name);
                     let fsmLabel = fsm.edge(fsmEdge.v, fsmEdge.w, fsmEdge.name);
 
+ //                   console.log(rfaLabel + " " + fsmLabel);
                     if (rfaLabel === fsmLabel) {
                         let i = `(${fsmEdge.v},${rfaEdge.v})`;
                         let j = `(${fsmEdge.w},${rfaEdge.w})`;
@@ -140,6 +141,15 @@ try {
             }
         });
     });
+    Object.keys(rfa.startStates).forEach((startState) => {
+        Object.keys(rfa.finalStates).forEach((finalState) => {
+            if (rfa.startStates[startState] === rfa.finalStates[finalState] && startState === finalState ) {
+                fsm.nodes().forEach((node) => {
+                    triplets.add(`${node},${rfa.finalStates[finalState]},${node}`);
+                });
+            }
+        });
+    });
     let cnt = 0;
     Array.from(triplets).map((triplet) => {
         if (toFile) {
@@ -158,7 +168,7 @@ try {
     else if (isDebug) {
         console.log(cnt);
     }
-}
-catch (e) {
-    console.log(`Error: ${e.message}`);
-}
+//}
+//catch (e) {
+//    console.log(`Error: ${e.message}`);
+//}

@@ -22,7 +22,7 @@
   {
     "param1": "tests/graphs/epsilon.dot",
     "param2": "tests/rfa/epsilon.dot",
-    "output": "7"
+    "output": "6"
   },
   {
     "param1": "tests/graphs/skos.dot",

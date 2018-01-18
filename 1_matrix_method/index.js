@@ -14,6 +14,7 @@ try {
     let grammarDesc = fs.readFileSync(grammarPath, 'utf-8');
 
     let grammar = {};
+    let grammarEpsNonTerm = [];
     grammarDesc.split('\n').forEach((line) => {
 
         if (line === "") {
@@ -30,9 +31,16 @@ try {
             (grammar[parsedLine[4]][parsedLine[5]] = grammar[parsedLine[4]][parsedLine[5]] || []).push(parsedLine[1].toString());
         }
         else if (parsedLine[6] !== undefined) {
-            (grammar[parsedLine[6]] = grammar[parsedLine[6]] || []).push(parsedLine[1].toString());
+            if (parsedLine[6].toString() === 'eps') {
+                grammarEpsNonTerm.push(parsedLine[1].toString());
+            }
+            else {
+                (grammar[parsedLine[6]] = grammar[parsedLine[6]] || []).push(parsedLine[1].toString());
+            }
         }
     });
+
+    //console.log(grammarEpsNonTerm);
 
     //console.log(grammar);
     let matrix = {};
@@ -54,6 +62,14 @@ try {
             });
         }
     });
+
+    for (let i = 0; i < graph.edges().length; ++i) {
+        matrix[i] = matrix[i] || {};
+        matrix[i][i] = matrix[i][i] || new Set();
+        grammarEpsNonTerm.forEach((nonTerm) => {
+            matrix[i][i].add(nonTerm);
+        })
+    }
 
     let hasChanges = true;
     while (hasChanges) {

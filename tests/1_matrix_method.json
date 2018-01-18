@@ -22,7 +22,7 @@
   {
     "param1": "tests/graphs/epsilon.dot",
     "param2": "tests/grammars/epsilon.txt",
-    "output": "7"
+    "output": "6"
   },
   {
     "param1": "tests/graphs/skos.dot",
