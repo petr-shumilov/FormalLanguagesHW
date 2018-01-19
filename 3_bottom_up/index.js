@@ -51,7 +51,7 @@ try {
 
     });
 
-    
+
     let matrix = {};
     let yetAnotherIteration = true;
     while (yetAnotherIteration) {
@@ -64,8 +64,8 @@ try {
             hasChange = false;
             rfa.graph.edges().forEach((rfaEdge) => {
                 fsm.edges().forEach((fsmEdge) => {
-                    let rfaLabel = rfa.graph.edge(rfaEdge.v, rfaEdge.w, rfaEdge.name);
-                    let fsmLabel = fsm.edge(fsmEdge.v, fsmEdge.w, fsmEdge.name);
+                    let rfaLabel = rfaEdge.name;
+                    let fsmLabel = fsmEdge.name;
 
                     if (rfaLabel === fsmLabel) {
                         let i = `(${fsmEdge.v},${rfaEdge.v})`;
@@ -91,10 +91,10 @@ try {
         hasChange = true;
         while (hasChange) {
             hasChange = false;
-            Object.keys(matrix).forEach((i) => {
-                Object.keys(matrix[i]).forEach((j) => {
-                    Object.keys(matrix).forEach((k) => {
-                        Object.keys(matrix[k]).forEach((l) => {
+            for (let i in matrix) {
+                for (let j in matrix[i]) {
+                    for (let k in matrix) {
+                        for (let l in matrix[k]) {
                             if (j === k && (matrix[i] === undefined || matrix[i][l] === undefined)) {
                                 matrix[i] = matrix[i] || {};
                                 matrix[i][l] = true;
@@ -107,10 +107,10 @@ try {
                                     fsm.setEdge(a, c, rfa.startStates[b], rfa.startStates[b]);
                                 }
                             }
-                        });
-                    });
-                });
-            });
+                        }
+                    }
+                }
+            }
             if (hasChange)
                 closureChanges = true;
         }
