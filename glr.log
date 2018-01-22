@@ -1,0 +1,83 @@
+ [Fri Jan 19 2018 12:33:09 GMT+0300 (MSK)]:  GLR testing start...
+ [Fri Jan 19 2018 12:33:09 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/wwr.dot', graph: 'tests/graphs/wwr.dot')
+ [Fri Jan 19 2018 12:33:09 GMT+0300 (MSK)]:  out: 3, ans: 3  [OK] 
+
+ [Fri Jan 19 2018 12:33:09 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/ab.dot', graph: 'tests/graphs/ab.dot')
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  out: 20, ans: 20  [OK] 
+
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/expressions.dot', graph: 'tests/graphs/expressions.dot')
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  out: 9, ans: 9  [OK] 
+
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/a-loop.dot', graph: 'tests/graphs/a-loop.dot')
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  out: 16, ans: 16  [OK] 
+
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/epsilon.dot', graph: 'tests/graphs/epsilon.dot')
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  out: 6, ans: 6  [OK] 
+
+ [Fri Jan 19 2018 12:33:10 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/skos.dot')
+ [Fri Jan 19 2018 12:33:12 GMT+0300 (MSK)]:  out: 810, ans: 810  [OK] 
+
+ [Fri Jan 19 2018 12:33:12 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/generations.dot')
+ [Fri Jan 19 2018 12:33:26 GMT+0300 (MSK)]:  out: 2164, ans: 2164  [OK] 
+
+ [Fri Jan 19 2018 12:33:26 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/travel.dot')
+ [Fri Jan 19 2018 12:34:00 GMT+0300 (MSK)]:  out: 2499, ans: 2499  [OK] 
+
+ [Fri Jan 19 2018 12:34:00 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/univ-bench.dot')
+ [Fri Jan 19 2018 12:34:17 GMT+0300 (MSK)]:  out: 2540, ans: 2540  [OK] 
+
+ [Fri Jan 19 2018 12:34:17 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/atom-primitive.dot')
+ [Fri Jan 19 2018 12:46:15 GMT+0300 (MSK)]:  out: 15454, ans: 15454  [OK] 
+
+ [Fri Jan 19 2018 12:46:15 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/biomedical-mesure-primitive.dot')
+ [Fri Jan 19 2018 13:01:08 GMT+0300 (MSK)]:  out: 15156, ans: 15156  [OK] 
+
+ [Fri Jan 19 2018 13:01:08 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/foaf.dot')
+ [Fri Jan 19 2018 13:01:35 GMT+0300 (MSK)]:  out: 4118, ans: 4118  [OK] 
+
+ [Fri Jan 19 2018 13:01:35 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/people_pets.dot')
+ [Fri Jan 19 2018 13:08:37 GMT+0300 (MSK)]:  out: 9472, ans: 9472  [OK] 
+
+ [Fri Jan 19 2018 13:08:37 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/funding.dot')
+ [Fri Jan 19 2018 13:22:11 GMT+0300 (MSK)]:  out: 17634, ans: 17634  [OK] 
+
+ [Fri Jan 19 2018 13:22:11 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/wine.dot')
+ [Fri Jan 19 2018 17:25:45 GMT+0300 (MSK)]:  out: 66572, ans: 66572  [OK] 
+
+ [Fri Jan 19 2018 17:25:45 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_1.dot', graph: 'tests/graphs/pizza.dot')
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  out: 56195, ans: 56195  [OK] 
+
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/skos.dot')
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  out: 1, ans: 1  [OK] 
+
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/generations.dot')
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  out: 0, ans: 0  [OK] 
+
+ [Fri Jan 19 2018 19:38:30 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/travel.dot')
+ [Fri Jan 19 2018 19:38:31 GMT+0300 (MSK)]:  out: 63, ans: 63  [OK] 
+
+ [Fri Jan 19 2018 19:38:31 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/univ-bench.dot')
+ [Fri Jan 19 2018 19:38:31 GMT+0300 (MSK)]:  out: 81, ans: 81  [OK] 
+
+ [Fri Jan 19 2018 19:38:31 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/atom-primitive.dot')
+ [Fri Jan 19 2018 19:40:56 GMT+0300 (MSK)]:  out: 122, ans: 122  [OK] 
+
+ [Fri Jan 19 2018 19:40:56 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/biomedical-mesure-primitive.dot')
+ [Fri Jan 19 2018 19:43:33 GMT+0300 (MSK)]:  out: 2871, ans: 2871  [OK] 
+
+ [Fri Jan 19 2018 19:43:33 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/foaf.dot')
+ [Fri Jan 19 2018 19:43:33 GMT+0300 (MSK)]:  out: 10, ans: 10  [OK] 
+
+ [Fri Jan 19 2018 19:43:33 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/people_pets.dot')
+ [Fri Jan 19 2018 19:43:34 GMT+0300 (MSK)]:  out: 37, ans: 37  [OK] 
+
+ [Fri Jan 19 2018 19:43:34 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/funding.dot')
+ [Fri Jan 19 2018 19:44:08 GMT+0300 (MSK)]:  out: 1158, ans: 1158  [OK] 
+
+ [Fri Jan 19 2018 19:44:08 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/wine.dot')
+ [Fri Jan 19 2018 19:44:09 GMT+0300 (MSK)]:  out: 133, ans: 133  [OK] 
+
+ [Fri Jan 19 2018 19:44:09 GMT+0300 (MSK)]:  Testing (rfa: 'tests/rfa/rfa_2.dot', graph: 'tests/graphs/pizza.dot')
+ [Fri Jan 19 2018 19:45:16 GMT+0300 (MSK)]:  out: 1262, ans: 1262  [OK] 
+
+ [Fri Jan 19 2018 19:45:16 GMT+0300 (MSK)]:  GLR testing done!

@@ -64,12 +64,9 @@ try {
             hasChange = false;
             rfa.graph.edges().forEach((rfaEdge) => {
                 fsm.edges().forEach((fsmEdge) => {
-                    let rfaLabel = rfaEdge.name;
-                    let fsmLabel = fsmEdge.name;
-
-                    if (rfaLabel === fsmLabel) {
-                        let i = `(${fsmEdge.v},${rfaEdge.v})`;
-                        let j = `(${fsmEdge.w},${rfaEdge.w})`;
+                    if (rfaEdge.name === fsmEdge.name) {
+                        let i = JSON.stringify([fsmEdge.v, rfaEdge.v]);
+                        let j = JSON.stringify([fsmEdge.w, rfaEdge.w]);
 
                         if (matrix[i] === undefined || matrix[i][j] === undefined) {
                             matrix[i] = (matrix[i] || {});
@@ -88,7 +85,7 @@ try {
         }
 
         let closureChanges = false;
-        hasChange = true;
+        hasChange = intersectionChanges;
         while (hasChange) {
             hasChange = false;
             for (let i in matrix) {
@@ -99,10 +96,11 @@ try {
                                 matrix[i] = matrix[i] || {};
                                 matrix[i][l] = true;
                                 hasChange = true;
-                                let ind1 = /\(([0-9]+),([0-9]+)\)/.exec(i);
-                                let ind2 = /\(([0-9]+),([0-9]+)\)/.exec(l);
-                                let a = ind1[1], b = ind1[2];
-                                let c = ind2[1], d = ind2[2];
+                                let ind1 = JSON.parse(i);
+                                let ind2 = JSON.parse(l);
+
+                                let a = ind1[0], b = ind1[1];
+                                let c = ind2[0], d = ind2[1];
                                 if (rfa.startStates[b] !== undefined && rfa.finalStates[d] !== undefined && !fsm.hasEdge(a, c, rfa.startStates[b])) {
                                     fsm.setEdge(a, c, rfa.startStates[b], rfa.startStates[b]);
                                 }
@@ -127,10 +125,10 @@ try {
     let triplets = new Set();
     Object.keys(matrix).forEach((i) => {
         Object.keys(matrix[i]).forEach((j) => {
-            let ind1 = /\(([0-9]+),([0-9]+)\)/.exec(i);
-            let ind2 = /\(([0-9]+),([0-9]+)\)/.exec(j);
-            let a = ind1[1], b = ind1[2];
-            let c = ind2[1], d = ind2[2];
+            let ind1 = JSON.parse(i);
+            let ind2 = JSON.parse(j);
+            let a = ind1[0], b = ind1[1];
+            let c = ind2[0], d = ind2[1];
             if (rfa.startStates[b] !== undefined && rfa.finalStates[d] !== undefined) {
 
                 triplets.add(`${a},${rfa.startStates[b]},${c}`);
@@ -154,7 +152,7 @@ try {
         else if (!isDebug) {
             console.log(triplet);
         }
-        if (triplet.includes('S')) {
+        if (triplet.includes(',S,')) {
             cnt++;
         }
     });
